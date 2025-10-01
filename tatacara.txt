@@ -1,0 +1,49 @@
+1. Buka aplikasi Docker Desktop dan tunggu sampai benar-benar siap (ikon paus tidak bergerak lagi).
+2. Buka terminal di VS Code, Jalankan perintah: docker compose up -d
+Setelah melakukan langkah-langkah ini, seharusnya semuanya berjalan lancar dan Anda bisa mengakses MinIO di http://localhost:9090
+
+Langkah Selanjutnya: Buka MinIO di Browser
+Sekarang server Anda sudah berjalan, langkah terakhir adalah mengaksesnya.
+1. Buka browser Anda (Chrome, Firefox, dll).
+2. Kunjungi alamat ini: http://localhost:9090 (atau http://127.0.0.1:9090).
+3. Login menggunakan kredensial yang ada di file docker-compose.yml:
+Username: faisalwiliam
+Password: faisalwiliam123
+
+Langkah Awal: Login ke MinIO
+Pertama, pastikan Anda sudah membuka dan login ke dashboard MinIO Anda di http://localhost:9090.
+## 1. Verifikasi "Storage (S3)"
+Fakta bahwa Anda dapat membuka halaman web di localhost:9090 dan login sudah membuktikan bahwa sistem penyimpanan (storage) Anda aktif dan berjalan. MinIO secara inheren kompatibel dengan S3, jadi langkah ini sudah terverifikasi. ✅
+
+## 2. Membuat "Wadah" (Bucket)
+Sebelum kita bisa menambah file, kita perlu membuat sebuah bucket. Di sinilah kita akan mengaktifkan fitur untuk "Archive".
+Di halaman utama, klik tombol "Create Bucket".
+Beri nama bucket, misalnya pembuktian-tugas.
+PENTING: Aktifkan Object Locking. Ini adalah syarat agar fitur arsip (retention) bisa digunakan nanti.
+Klik "Create Bucket".
+
+## 3. Verifikasi "Add Files" & "Remove Files"
+Sekarang mari kita uji fungsi unggah dan hapus.
+Add File:
+Masuk ke dalam bucket pembuktian-tugas.
+Klik tombol "Upload" lalu pilih "Upload file".
+Pilih file apa saja dari komputer Anda, misalnya file-untuk-dihapus.txt.
+Jika file tersebut muncul dalam daftar di bucket, maka fungsi Add files berhasil. 📤
+Remove File:
+Arahkan kursor ke file-untuk-dihapus.txt yang baru saja Anda unggah.
+Klik ikon titik tiga (...) di sebelah kanan, lalu pilih "Delete".
+Konfirmasi penghapusan.
+Jika file tersebut hilang dari daftar, maka fungsi Remove files berhasil. 🗑️
+
+## 4. Verifikasi "Archive" (Object Locking) 🔒
+Ini adalah bagian paling penting untuk membuktikan fungsi arsip. Kita akan mengunci sebuah file lalu mencoba menghapusnya.
+Unggah & Kunci File:
+Unggah sebuah file baru yang akan kita "arsipkan", misalnya dokumen-penting.pdf.
+Setelah terunggah, klik ikon titik tiga (...) di sebelah dokumen-penting.pdf.
+Pilih "Set Retention".
+Pilih Mode: Compliance (mode paling ketat, bahkan admin tidak bisa menghapusnya).
+Atur Tanggal Kedaluwarsa (Retain until date): Setidaknya untuk satu hari ke depan (misalnya, besok).
+Klik "Set".
+Uji Coba Penghapusan (Pembuktian):
+Sekarang, coba hapus file dokumen-penting.pdf yang sudah Anda kunci tadi (gunakan cara yang sama seperti di langkah verifikasi "Remove Files").
+Anda TIDAK AKAN BISA menghapusnya. Sebaliknya, Anda akan melihat pesan error berwarna merah di pojok bawah yang menyatakan ada kesalahan, biasanya berisi Access Denied.
